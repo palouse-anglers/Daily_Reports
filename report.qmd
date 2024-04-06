@@ -1,0 +1,145 @@
+---
+title: "LGR DAILY RESEARCH REPORT"
+author: "Ross Gleason"
+format: html
+---
+```{r}
+#| echo: false
+#| warning: false
+#| message: false
+selected_date <- "2023-06-02"
+```
+
+# `r selected_date`
+
+```{r}
+#| echo: false
+#| warning: false
+#| message: false
+library(bslib)
+library(bsicons)
+
+source("load_files.R")
+```
+
+::: panel-tabset
+
+#### SRV
+
+```{r}
+#| echo: false
+#| warning: false
+#| message: false
+value_box(theme = "darkly",
+  title = "Wild",
+  value = srv_df_sum %>% 
+    filter(Date %in% selected_date, Species %in% "Wild") %>%
+    pull(Daily_Count),
+  showcase = bs_icon("emoji-smile-fill")
+)
+```
+
+```{r}
+#| echo: false
+#| warning: false
+#| message: false
+srv_df_sum %>% 
+    filter(Date %in% selected_date) %>%
+    hchart(.,
+    "item",
+    hcaes(
+      name = Species,
+      y = Daily_Total,
+      color=c("#000","#64A12D")
+    ),
+    name = "",
+    showInLegend = TRUE,
+    size = "100%",
+    center = list("50%", "75%"),
+    startAngle = -100,
+    endAngle  = 100
+  ) %>%
+  hc_tooltip(formatter = JS("function(){
+                            return (
+                            ' <br>Date: ' + this.point.Date +
+                            ' <br>Total: ' + this.point.Daily_Count
+                            )
+                            }"))
+
+
+```
+
+```{r}
+#| echo: false
+#| warning: false
+#| message: false
+value_box(theme = "darkly",
+  title = "Hatchery",
+  value = srv_df_sum %>% 
+    filter(Date %in% selected_date, Species %in% "Hatchery") %>%
+    pull(Daily_Count),
+  showcase = bs_icon("emoji-frown-fill")
+)
+
+```
+
+
+#### DDM
+```{r}
+#| echo: false
+#| warning: false
+#| message: false
+value_box(theme = "darkly",
+  title = "Wild",
+  value = ddm_df_sum %>% 
+    filter(Date %in% selected_date, Species %in% "Wild") %>%
+    pull(Daily_Count),
+  showcase = bs_icon("emoji-smile-fill")
+)
+```
+
+```{r}
+#| echo: false
+#| warning: false
+#| message: false
+ddm_df_sum %>% 
+    filter(Date %in% selected_date) %>%
+    hchart(.,
+    "item",
+    hcaes(
+      name = Species,
+      y = Daily_Total,
+      color=c("#000","#64A12D")
+    ),
+    name = "",
+    showInLegend = TRUE,
+    size = "100%",
+    center = list("50%", "75%"),
+    startAngle = -100,
+    endAngle  = 100
+  ) %>%
+  hc_tooltip(formatter = JS("function(){
+                            return (
+                            ' <br>Date: ' + this.point.Date +
+                            ' <br>Total: ' + this.point.Daily_Count
+                            )
+                            }"))
+
+
+```
+
+```{r}
+#| echo: false
+#| warning: false
+#| message: false
+value_box(theme = "darkly",
+  title = "Hatchery",
+  value = ddm_df_sum %>% 
+    filter(Date %in% selected_date, Species %in% "Hatchery") %>%
+    pull(Daily_Count),
+  showcase = bs_icon("emoji-frown-fill")
+)
+
+```
+
+:::
